@@ -1,9 +1,8 @@
-import { Button } from "@/components/ui/button";
+import FilterItems from "@/components/shared/filter-items";
 export default function page() {
   return (
-    <>
-      <h1>This is home page</h1>
-      <Button>Click here</Button>
-    </>
+    <div className="container mx-auto px-5 lg:px-10">
+      <FilterItems />
+    </div>
   );
 }
