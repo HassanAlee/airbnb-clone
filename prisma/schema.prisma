@@ -31,12 +31,12 @@ model Home {
   country      String?
   photo        String?
   price        Int?
-  // categoryName String?
+  categoryName String?
   // Favorite     Favorite[]
   // Reservation  Reservation[]
-  // addedCategory    Boolean @default(false)
-  // addedDescription Boolean @default(false)
-  // addedLoaction    Boolean @default(false)
+  addedCategory    Boolean @default(false)
+  addedDescription Boolean @default(false)
+  addedLoaction    Boolean @default(false)
   createdAT DateTime @default(now())
   User      User?    @relation(fields: [userId], references: [id])
   userId    String?
