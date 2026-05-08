@@ -16,7 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { createLocation } from "@/app/actions";
-const LazyMap = dynamic(() => import("@/components/shared/Map"), {
+const LazyMap = dynamic(() => import("@/components/shared/map"), {
   ssr: false,
   loading: () => <Skeleton className="h-[50vh] w-full" />,
 });
