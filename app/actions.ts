@@ -75,7 +75,7 @@ export async function createDescription(formData: FormData) {
   if (image) {
     const { data } = await supabase.storage
       .from("images")
-      .upload(`images/${image.name}-${new Date()}`, image, {
+      .upload(`${image.name}-${new Date()}`, image, {
         cacheControl: "2592000",
         contentType: "image/png",
       });
