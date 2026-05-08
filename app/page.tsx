@@ -3,10 +3,17 @@ import ListingCard from "@/components/shared/listing-card";
 import { NoItems } from "@/components/shared/no-items";
 import { SkeltonCard } from "@/components/shared/skeleton-card";
 import { prisma } from "@/lib/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Suspense } from "react";
 // TODO: move to service file
 // TODO: oranize components properly
-const getData = async (filter?: string) => {
+const getData = async ({
+  filter,
+  userId,
+}: {
+  filter?: string;
+  userId?: string;
+}) => {
   const data = await prisma.home.findMany({
     where: {
       addedCategory: true,
@@ -20,6 +27,11 @@ const getData = async (filter?: string) => {
       photo: true,
       description: true,
       country: true,
+      Favorite: {
+        where: {
+          userId: userId ?? undefined,
+        },
+      },
     },
   });
   return data;
@@ -51,9 +63,12 @@ async function ShowItems({
     // bathroom?: string;
   };
 }) {
-  // const { getUser } = getKindeServerSession();
-  // const user = await getUser();
-  const data = await getData(searchParams?.filter);
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  const data = await getData({
+    filter: searchParams?.filter,
+    userId: user?.id,
+  });
 
   return (
     <>
@@ -71,11 +86,11 @@ async function ShowItems({
               imagePath={item.photo as string}
               location={item.country as string}
               price={item.price as number}
-              // userId={user?.id}
-              // favoriteId={item.Favorite[0]?.id}
-              // isInFavoriteList={item.Favorite.length > 0 ? true : false}
+              userId={user?.id}
+              favoriteId={item.Favorite[0]?.id}
+              isInFavoriteList={item.Favorite.length > 0 ? true : false}
               homeId={item.id}
-              // pathName="/"
+              pathName="/"
             />
           ))}
         </div>
