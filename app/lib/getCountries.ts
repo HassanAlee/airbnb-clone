@@ -8,15 +8,12 @@ const countriesFormatted = countries.map((item) => ({
   region: item.region,
 }));
 
-export const useCountries = () => {
-  const getAllCountries = () => countriesFormatted;
+export const getAllCountries = () => countriesFormatted;
 
-  const getCountryByValue = (value: string) => {
-    return countriesFormatted.find((item) => item.value === value);
-  };
+export const getCountryByValue = (value: string) =>
+  countriesFormatted.find((item) => item.value === value);
 
-  return {
-    getAllCountries,
-    getCountryByValue,
-  };
-};
+export const useCountries = () => ({
+  getAllCountries,
+  getCountryByValue,
+});
