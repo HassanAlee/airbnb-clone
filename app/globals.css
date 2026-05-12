@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "react-day-picker/style.css";
+
+.rdp-root {
+  --rdp-accent-color: #e21c49;
+  --rdp-accent-background-color: #fce4ea;
+  --rdp-range_middle-background-color: #fce4ea;
+  --rdp-range_middle-color: #e21c49;
+  --rdp-range_start-date-background-color: #e21c49;
+  --rdp-range_end-date-background-color: #e21c49;
+  --rdp-today-color: #e21c49;
+  --rdp-selected-border: 2px solid #e21c49;
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -55,8 +67,8 @@
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.645 0.246 16.439);
-  --primary-foreground: oklch(0.969 0.015 12.422);
+  --primary: #e21c49;
+  --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.967 0.001 286.375);

@@ -1,6 +1,7 @@
 import { getCountryByValue } from "@/app/lib/getCountries";
 import { CategoryShowcase } from "@/components/shared/category-showcase";
 import { HomeMap } from "@/components/shared/home-map";
+import { SelectCalendar } from "@/components/shared/select-calendar";
 import { Separator } from "@/components/ui/separator";
 import { prisma } from "@/lib/db";
 import Image from "next/image";
@@ -91,6 +92,7 @@ export default async function HomeDetailPage({
           <Separator className="my-7" />
           <HomeMap locationValue={data?.country as string} />
         </div>
+        <SelectCalendar />
       </div>
     </div>
   );
