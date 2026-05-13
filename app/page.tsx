@@ -10,9 +10,17 @@ import { Suspense } from "react";
 const getData = async ({
   filter,
   userId,
+  country,
+  guest,
+  room,
+  bathroom,
 }: {
   filter?: string;
   userId?: string;
+  country?: string;
+  guest?: string;
+  room?: string;
+  bathroom?: string;
 }) => {
   const data = await prisma.home.findMany({
     where: {
@@ -20,6 +28,10 @@ const getData = async ({
       addedDescription: true,
       addedLoaction: true,
       categoryName: filter,
+      country: country ?? undefined,
+      guests: guest ?? undefined,
+      bathrooms: bathroom ?? undefined,
+      bedrooms: room ?? undefined,
     },
     select: {
       id: true,
@@ -39,7 +51,13 @@ const getData = async ({
 export default async function page({
   searchParams,
 }: {
-  searchParams?: Promise<{ filter: string }>;
+  searchParams?: Promise<{
+    filter: string;
+    country?: string;
+    guest?: string;
+    room?: string;
+    bathroom?: string;
+  }>;
 }) {
   const searchParamsData = await searchParams;
   return (
@@ -57,10 +75,10 @@ async function ShowItems({
 }: {
   searchParams?: {
     filter?: string;
-    // country?: string;
-    // guest?: string;
-    // room?: string;
-    // bathroom?: string;
+    country?: string;
+    guest?: string;
+    room?: string;
+    bathroom?: string;
   };
 }) {
   const { getUser } = getKindeServerSession();
@@ -68,6 +86,10 @@ async function ShowItems({
   const data = await getData({
     filter: searchParams?.filter,
     userId: user?.id,
+    country: searchParams?.country,
+    guest: searchParams?.guest,
+    room: searchParams?.room,
+    bathroom: searchParams?.bathroom,
   });
 
   return (
