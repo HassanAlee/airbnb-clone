@@ -1,9 +1,14 @@
+import { createReservation } from "@/app/actions";
 import { getCountryByValue } from "@/app/lib/getCountries";
 import { CategoryShowcase } from "@/components/shared/category-showcase";
 import { HomeMap } from "@/components/shared/home-map";
 import { SelectCalendar } from "@/components/shared/select-calendar";
+import { ReservationSubmitButton } from "@/components/shared/submit-buttons";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { prisma } from "@/lib/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Link } from "lucide-react";
 import Image from "next/image";
 // TODO: fetch data in separate file
 export const dynamic = "force-dynamic";
@@ -22,12 +27,15 @@ async function getData(homeid: string) {
       categoryName: true,
       price: true,
       country: true,
-      //   Reservation: {
-      //     where: {
-      //       homeId: homeid,
-      //     },
-      //   },
-
+      Reservation: {
+        select: {
+          startDate: true,
+          endDate: true,
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
       User: {
         select: {
           profileImage: true,
@@ -47,6 +55,8 @@ export default async function HomeDetailPage({
   const { id } = await params;
   const data = await getData(id);
   const country = getCountryByValue(data?.country as string);
+  const { getUser } = await getKindeServerSession();
+  const user = await getUser();
   return (
     <div className="w-[75%] mx-auto mt-10 mb-12">
       <h1 className="font-medium text-2xl mb-5">{data?.title}</h1>
@@ -92,7 +102,18 @@ export default async function HomeDetailPage({
           <Separator className="my-7" />
           <HomeMap locationValue={data?.country as string} />
         </div>
-        <SelectCalendar />
+        <form action={createReservation}>
+          <input type="hidden" name="homeId" value={id} />
+          <input type="hidden" name="userId" value={user?.id} />
+          <SelectCalendar reservation={data?.Reservation} />
+          {user?.id ? (
+            <ReservationSubmitButton />
+          ) : (
+            <Button className="w-full" asChild>
+              <Link href="/api/auth/login">Make a Reservation</Link>
+            </Button>
+          )}
+        </form>
       </div>
     </div>
   );
