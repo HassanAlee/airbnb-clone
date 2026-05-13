@@ -4,9 +4,6 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const { getUser } = getKindeServerSession();
-  console.log("i am in api route");
-  console.log("eer", process.env.KINDE_SITE_URL!);
-
   const user = await getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -25,5 +22,5 @@ export async function GET() {
     });
   }
 
-  return NextResponse.redirect(process.env.KINDE_SITE_URL!);
+  return NextResponse.redirect("https://airbnb-clone-ten-roan.vercel.app");
 }
