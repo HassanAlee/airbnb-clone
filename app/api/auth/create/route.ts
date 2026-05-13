@@ -4,6 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const { getUser } = getKindeServerSession();
+  console.log("i am in api route");
+  console.log("eer", process.env.KINDE_SITE_URL!);
+
   const user = await getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
