@@ -5,8 +5,7 @@ export default withAuth(async function proxy() {}, {
   publicPaths: ["/", "/api/auth/.*"],
 });
 
+// middleware.ts - make sure auth routes are excluded
 export const config = {
-  matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-  ],
+  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
 };
